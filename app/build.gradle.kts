@@ -36,7 +36,7 @@ android {
 dependencies {
     // Dependencias de Firebase
     implementation("com.google.firebase:firebase-auth:21.0.1") // Para autenticación de Firebase
-    implementation("com.google.firebase:firebase-database:20.0.3") // Para la base de datos de Firebase (si la necesitas)
+    implementation("com.google.firebase:firebase-database:20.0.3") // Para la base de datos de Firebase
     implementation(platform("com.google.firebase:firebase-bom:31.0.1")) // Para gestionar versiones de Firebase
 
     // Google Sign-In
@@ -48,13 +48,10 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.0.4") // Para la disposición con ConstraintLayout
     implementation("androidx.activity:activity:1.3.1") // Para la actividad de la aplicación
 
-
-    // Asegúrate de tener esta dependencia para Material3
-    implementation("com.google.android.material:material:1.5.0")
-
-
     // Dependencias de prueba
     testImplementation("junit:junit:4.13.2") // Dependencia de JUnit para pruebas unitarias
     androidTestImplementation("androidx.test.ext:junit:1.1.3") // Dependencia de JUnit para pruebas de interfaz de usuario
     androidTestImplementation("androidx.espresso:espresso-core:3.4.0") // Dependencia para pruebas de UI con Espresso
+
+    implementation("com.google.android.material:material:1.5.0")
 }

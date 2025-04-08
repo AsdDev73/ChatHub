@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@color/white"
+    android:background="@color/colorWhite"
     >
 
     <TextView
@@ -23,8 +23,8 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="376dp"
-        android:layout_height="190dp"
+        android:layout_width="375dp"
+        android:layout_height="248dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -37,31 +37,43 @@
             android:id="@+id/editTextEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Usuario" />
+            android:hint="Usuario"
+            android:layout_marginBottom="10dp"/>
 
         <EditText
             android:id="@+id/editTextContra"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Contraseña" />
+            android:hint="Contraseña"
+            android:layout_marginBottom="10dp"/>
 
         <Button
             android:id="@+id/buttonLogin"
             android:layout_width="122dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Iniciar" />
+            android:text="Iniciar"
+            android:layout_marginBottom="10dp"/>
 
         <TextView
             android:id="@+id/Registrar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:clickable="true"
             android:focusable="true"
             android:gravity="center"
             android:text="¿No tienes cuenta? Regístrate"
             android:textSize="14sp"
-            android:layout_gravity="center"
+            android:layout_marginBottom="10dp" />
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/googleSignInButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right
+"
+
             />
 
     </LinearLayout>
@@ -79,4 +91,23 @@
         app:srcCompat="@drawable/logo" />
 
 
+    <!-- Botn basico img google
+        <Button
+            android:id="@+id/btnGoogle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/btn_bg"
+            android:drawablePadding="10dp"
+            android:paddingLeft="20dp"
+            android:text="Google"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            app:drawableLeftCompat="@drawable/ic_google"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            app:layout_constraintVertical_bias="0.116" />
+
+    -->
 </androidx.constraintlayout.widget.ConstraintLayout>

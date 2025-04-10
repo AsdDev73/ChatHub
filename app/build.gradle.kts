@@ -42,6 +42,12 @@ dependencies {
     // Google Sign-In
     implementation("com.google.android.gms:play-services-auth:20.4.1") // Para la autenticación con Google
 
+    // Firebase BoM
+    implementation(platform("com.google.firebase:firebase-bom:32.7.3"))
+
+    // Firestore
+    implementation("com.google.firebase:firebase-firestore")
+
     // Dependencias comunes de la UI
     implementation("androidx.appcompat:appcompat:1.3.1") // Para compatibilidad con versiones anteriores
     implementation("com.google.android.material:material:1.4.0") // Para los componentes de UI de Google

@@ -30,7 +30,9 @@ public class ChatActivity extends AppCompatActivity {
         BtnVolver = findViewById(R.id.btnVolver);
 
         db = FirebaseFirestore.getInstance();
-        messagesRef = db.collection("messages");
+        String chatName = getIntent().getStringExtra("chatName");
+        messagesRef = db.collection("chats").document(chatName).collection("messages");
+
 
         adaptador = new MessageAdapter(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

@@ -60,8 +60,7 @@ public class LogIn extends AppCompatActivity {
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             Toast.makeText(LogIn.this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(LogIn.this, ChatActivity.class));
-                            finish();
+                            irAHomeActivity();
                         } else {
                             Toast.makeText(LogIn.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         }
@@ -98,12 +97,16 @@ public class LogIn extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
                         Toast.makeText(this, "Bienvenido, " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
-                        // Ir a otra pantalla
-                        startActivity(new Intent(LogIn.this, ChatActivity.class));
-                        finish();
+                        irAHomeActivity();
                     } else {
                         Toast.makeText(this, "Autenticación fallida", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void irAHomeActivity() {
+        Intent intent = new Intent(LogIn.this, HomeActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

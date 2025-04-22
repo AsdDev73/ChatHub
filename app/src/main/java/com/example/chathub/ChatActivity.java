@@ -1,5 +1,6 @@
 package com.example.chathub;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,11 +12,12 @@ import java.util.*;
 public class ChatActivity extends AppCompatActivity {
 
     private EditText MensajeEnviado;
-    private Button BtnEnviar;
+    private ImageButton BtnEnviar;
     private RecyclerView recyclerView;
     private MessageAdapter adaptador;
     private FirebaseFirestore db;
     private CollectionReference messagesRef;
+    private ImageButton BtnVolver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +27,7 @@ public class ChatActivity extends AppCompatActivity {
         MensajeEnviado = findViewById(R.id.mensaje);
         BtnEnviar = findViewById(R.id.botonEnviar);
         recyclerView = findViewById(R.id.recyclerView);
+        BtnVolver = findViewById(R.id.btnVolver);
 
         db = FirebaseFirestore.getInstance();
         messagesRef = db.collection("messages");
@@ -57,5 +60,11 @@ public class ChatActivity extends AppCompatActivity {
                 MensajeEnviado.setText("");
             }
         });
+
+        BtnVolver.setOnClickListener(v -> {
+            Intent intent = new Intent(ChatActivity.this, HomeActivity.class);
+            startActivity(intent);
+        });
+
     }
 }

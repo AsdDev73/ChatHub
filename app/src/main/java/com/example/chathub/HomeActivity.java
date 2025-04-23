@@ -2,38 +2,33 @@ package com.example.chathub;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
-
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private Button btnGeneral, btnFutbol, btnProgramacion, btnCine, btnVideojuegos;
+    private RecyclerView recyclerView;
+    private ChatListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home); // Asegúrate que este layout se llama así
+        setContentView(R.layout.activity_home);
 
-        // Vinculamos los botones
-        btnGeneral = findViewById(R.id.btnGeneral);
-        btnFutbol = findViewById(R.id.btnFutbol);
-        btnProgramacion = findViewById(R.id.btnProgramacion);
-        btnCine = findViewById(R.id.btnCine);
-        btnVideojuegos = findViewById(R.id.btnVideojuegos);
+        recyclerView = findViewById(R.id.recyclerViewChats);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Asignamos listeners a cada botón
-        btnGeneral.setOnClickListener(v -> openChat("general"));
-        btnFutbol.setOnClickListener(v -> openChat("futbol"));
-        btnProgramacion.setOnClickListener(v -> openChat("programacion"));
-        btnCine.setOnClickListener(v -> openChat("cine"));
-        btnVideojuegos.setOnClickListener(v -> openChat("videojuegos"));
-    }
+        List<String> chatRooms = Arrays.asList("General", "Fútbol", "Programación", "Cine", "Videojuegos");
+        adapter = new ChatListAdapter(chatRooms, roomName -> {
+            Intent intent = new Intent(HomeActivity.this, ChatActivity.class);
+            intent.putExtra("roomName", roomName.toLowerCase());
+            startActivity(intent);
+        });
 
-    // Método para abrir el ChatActivity con el nombre de la sala
-    private void openChat(String roomName) {
-        Intent intent = new Intent(this, ChatActivity.class);
-        intent.putExtra("roomName", roomName); // Enviamos el nombre de la sala
-        startActivity(intent);
+        recyclerView.setAdapter(adapter);
     }
 }

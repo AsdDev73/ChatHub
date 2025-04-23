@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="8dp"
-    android:id="@+id/messageContainer">
-    <TextView
-        android:id="@+id/chatNameTextView"
+    android:padding="4dp">
+
+    <!-- Éste es el contenedor que moveremos con gravity -->
+    <LinearLayout
+        android:id="@+id/messageContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nombre del chat"
-        android:textSize="18sp"
-        android:textStyle="bold"/>
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:background="@drawable/bg_message_other">
 
-    <TextView
-        android:id="@+id/usuarioTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textColor="#2196F3"
-        android:textSize="14sp" />
+        <TextView
+            android:id="@+id/usuarioTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:textColor="#2196F3"/>
 
-    <TextView
-        android:id="@+id/mensajeTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:layout_marginTop="2dp" />
+        <TextView
+            android:id="@+id/mensajeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textSize="16sp"/>
 
-    <TextView
-        android:id="@+id/horaTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:textColor="#888888"
-        android:layout_marginTop="2dp" />
-
-</LinearLayout>
+        <TextView
+            android:id="@+id/horaTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textSize="12sp"
+            android:textColor="#888888"/>
+    </LinearLayout>
+</FrameLayout>

@@ -2,71 +2,101 @@ package com.example.chathub;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.*;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.*;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.*;
-import java.util.*;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ChatActivity extends AppCompatActivity {
 
-    private EditText MensajeEnviado;
-    private ImageButton BtnEnviar;
+    private EditText mensajeEnviado;
+    private ImageButton botonEnviar, btnVolver;
     private RecyclerView recyclerView;
     private MessageAdapter adaptador;
-    private FirebaseFirestore db;
+    private TextView tituloTextView;
     private CollectionReference messagesRef;
-    private ImageButton BtnVolver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        MensajeEnviado = findViewById(R.id.mensaje);
-        BtnEnviar = findViewById(R.id.botonEnviar);
-        recyclerView = findViewById(R.id.recyclerView);
-        BtnVolver = findViewById(R.id.btnVolver);
+        // 1. Bind de vistas
+        mensajeEnviado  = findViewById(R.id.mensaje);
+        botonEnviar    = findViewById(R.id.botonEnviar);
+        recyclerView   = findViewById(R.id.recyclerView);
+        btnVolver      = findViewById(R.id.btnVolver);
+        tituloTextView = findViewById(R.id.titulo);
 
-        db = FirebaseFirestore.getInstance();
+        // 2. Recuperar nombre de sala desde el Intent
         String chatName = getIntent().getStringExtra("chatName");
-        messagesRef = db.collection("chats").document(chatName).collection("messages");
+        if (chatName == null) {
+            chatName = getIntent().getStringExtra("roomName");
+        }
+        if (chatName == null) {
+            chatName = "general";
+        }
 
+        // 3. Mostrar título capitalizado
+        String displayName = chatName.substring(0,1).toUpperCase() + chatName.substring(1);
+        tituloTextView.setText(displayName);
 
-        adaptador = new MessageAdapter(this);
+        // 4. Inicializar Firestore en rooms/{chatName}/messages
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        messagesRef = db
+                .collection("rooms")
+                .document(chatName)
+                .collection("messages");
+
+        // 5. Configurar RecyclerView y adaptador (le pasamos lista vacía)
+        adaptador = new MessageAdapter(this, new ArrayList<>());
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adaptador);
 
-        // Escuchar mensajes en tiempo real, ordenando por el campo "hora"
-        messagesRef.orderBy("hora", Query.Direction.ASCENDING)
-                .addSnapshotListener((value, error) -> {
-                    if (error != null) return;
-
-                    List<Mensaje> messages = new ArrayList<>();
-                    for (DocumentSnapshot doc : value.getDocuments()) {
-                        Mensaje mensaje = doc.toObject(Mensaje.class);
-                        messages.add(mensaje);
+        // 6. Escuchar mensajes en tiempo real ordenados por 'hora'
+        messagesRef
+                .orderBy("hora", Query.Direction.ASCENDING)
+                .addSnapshotListener((snapshots, error) -> {
+                    if (error != null || snapshots == null) return;
+                    List<Mensaje> lista = new ArrayList<>();
+                    for (DocumentSnapshot doc : snapshots.getDocuments()) {
+                        Mensaje m = doc.toObject(Mensaje.class);
+                        if (m != null) lista.add(m);
                     }
-                    adaptador.setMessages(messages);
+                    adaptador.setMessages(lista);
+                    recyclerView.scrollToPosition(lista.size() - 1);
                 });
 
-        BtnEnviar.setOnClickListener(v -> {
-            String text = MensajeEnviado.getText().toString().trim();
-            String user = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-
-            if (!text.isEmpty()) {
-                // Asegúrate de pasar primero el usuario, luego el texto, y finalmente la hora
-                Mensaje message = new Mensaje(user, text, System.currentTimeMillis());
-                messagesRef.add(message);
-                MensajeEnviado.setText("");
+        // 7. Enviar nuevo mensaje
+        botonEnviar.setOnClickListener(v -> {
+            String texto = mensajeEnviado.getText().toString().trim();
+            String user  = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+            if (!texto.isEmpty() && user != null) {
+                Mensaje m = new Mensaje(user, texto, System.currentTimeMillis());
+                messagesRef
+                        .add(m)
+                        .addOnSuccessListener(docRef -> mensajeEnviado.setText(""))
+                        .addOnFailureListener(e ->
+                                Toast.makeText(this, "Error al enviar: " + e.getMessage(),
+                                        Toast.LENGTH_SHORT).show()
+                        );
             }
         });
 
-        BtnVolver.setOnClickListener(v -> {
-            Intent intent = new Intent(ChatActivity.this, HomeActivity.class);
-            startActivity(intent);
-        });
-
+        // 8. Botón volver
+        btnVolver.setOnClickListener(v -> finish());
     }
 }

@@ -2,6 +2,8 @@ package com.example.chathub;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,7 +30,13 @@ public class HomeActivity extends AppCompatActivity {
             intent.putExtra("roomName", roomName.toLowerCase());
             startActivity(intent);
         });
+        ImageView perilIcon = findViewById(R.id.imageView2);
+        perilIcon.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, PerfilActivity.class);
+            startActivity(intent);
+        });
 
         recyclerView.setAdapter(adapter);
+
     }
 }

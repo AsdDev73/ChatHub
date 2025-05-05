@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">ChatHub</string>
     <string name="default_web_client_id">chathub-27dfb.apps.googleusercontent.com</string>
+    <string-array name="sexo_array">
+        <item>Masculino</item>
+        <item>Femenino</item>
+        <item>Otro</item>
+    </string-array>
 
 </resources>

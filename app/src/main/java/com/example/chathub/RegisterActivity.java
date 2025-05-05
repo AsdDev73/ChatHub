@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Intent;
@@ -50,5 +51,8 @@ public class RegisterActivity extends AppCompatActivity {
                         }
                     });
         });
+        ImageButton buttonBack = findViewById(R.id.buttonBack);
+        buttonBack.setOnClickListener(v -> onBackPressed());
+
     }
 }

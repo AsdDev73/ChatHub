@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:padding="24dp">
+
+    <!-- Título -->
+    <TextView
+        android:id="@+id/tituloPerfil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mi Perfil"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/colorGreyOscuro"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Imagen -->
+    <ImageView
+        android:id="@+id/fotoPerfil"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_usuario"
+        android:background="@drawable/circle_background"
+        android:scaleType="centerCrop"
+        app:layout_constraintTop_toBottomOf="@id/tituloPerfil"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Nombre -->
+    <EditText
+        android:id="@+id/editTextNombre"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Nombre de usuario"
+        android:inputType="textPersonName"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@id/fotoPerfil"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Fecha de nacimiento -->
+    <EditText
+        android:id="@+id/editTextFechaNacimiento"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Fecha de nacimiento"
+        android:focusable="false"
+        android:inputType="none"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/editTextNombre"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Sexo -->
+    <Spinner
+        android:id="@+id/spinnerSexo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/editTextFechaNacimiento"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Botón guardar (opcional) -->
+    <Button
+        android:id="@+id/btnGuardarPerfil"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Guardar cambios"
+        android:backgroundTint="@color/colorGreyOscuro"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@id/spinnerSexo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Botón volver -->
+    <Button
+        android:id="@+id/btnVolverChats"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Volver a Chats"
+        android:layout_marginTop="12dp"
+        android:backgroundTint="@color/colorGreyOscuro"
+        android:textColor="@android:color/white"
+        app:layout_constraintTop_toBottomOf="@id/btnGuardarPerfil"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Botón cerrar sesión -->
+    <Button
+        android:id="@+id/btnCerrarSesion"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Cerrar Sesión"
+        android:layout_marginTop="12dp"
+        android:backgroundTint="@color/colorGreyOscuro"
+        android:textColor="@android:color/white"
+        app:layout_constraintTop_toBottomOf="@id/btnVolverChats"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

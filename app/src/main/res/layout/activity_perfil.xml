@@ -14,47 +14,55 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Mi Perfil"
-        android:textSize="24sp"
+        android:textSize="26sp"
         android:textStyle="bold"
         android:textColor="@color/colorGreyOscuro"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="24dp"/>
 
-    <!-- Imagen -->
+    <!-- Imagen de perfil -->
     <ImageView
         android:id="@+id/fotoPerfil"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:src="@drawable/ic_usuario"
         android:background="@drawable/circle_background"
         android:scaleType="centerCrop"
         app:layout_constraintTop_toBottomOf="@id/tituloPerfil"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <!-- Nombre -->
     <EditText
         android:id="@+id/editTextNombre"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:hint="Nombre de usuario"
         android:inputType="textPersonName"
-        android:layout_marginTop="24dp"
+        android:background="@drawable/edittext_background"
+        android:padding="12dp"
+        android:textColor="@android:color/black"
+        android:textColorHint="#888"
         app:layout_constraintTop_toBottomOf="@id/fotoPerfil"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp"/>
 
     <!-- Fecha de nacimiento -->
     <EditText
         android:id="@+id/editTextFechaNacimiento"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:hint="Fecha de nacimiento"
         android:focusable="false"
         android:inputType="none"
+        android:background="@drawable/edittext_background"
+        android:padding="12dp"
+        android:textColor="@android:color/black"
+        android:textColorHint="#888"
         android:layout_marginTop="12dp"
         app:layout_constraintTop_toBottomOf="@id/editTextNombre"
         app:layout_constraintStart_toStartOf="parent"
@@ -64,30 +72,32 @@
     <Spinner
         android:id="@+id/spinnerSexo"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
+        android:background="@drawable/edittext_background"
+        android:padding="8dp"
         android:layout_marginTop="12dp"
         app:layout_constraintTop_toBottomOf="@id/editTextFechaNacimiento"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Botón guardar (opcional) -->
+    <!-- Botón Guardar -->
     <Button
         android:id="@+id/btnGuardarPerfil"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:text="Guardar cambios"
+        android:layout_marginTop="24dp"
         android:backgroundTint="@color/colorGreyOscuro"
         android:textColor="@android:color/white"
-        android:layout_marginTop="24dp"
         app:layout_constraintTop_toBottomOf="@id/spinnerSexo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Botón volver -->
+    <!-- Botón Volver -->
     <Button
         android:id="@+id/btnVolverChats"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:text="Volver a Chats"
         android:layout_marginTop="12dp"
         android:backgroundTint="@color/colorGreyOscuro"
@@ -96,11 +106,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Botón cerrar sesión -->
+    <!-- Botón Cerrar Sesión -->
     <Button
         android:id="@+id/btnCerrarSesion"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:text="Cerrar Sesión"
         android:layout_marginTop="12dp"
         android:backgroundTint="@color/colorGreyOscuro"

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.*;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.tasks.Task;
@@ -26,7 +27,7 @@ public class LogIn extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextContra);
         buttonLogin = findViewById(R.id.buttonLogin);

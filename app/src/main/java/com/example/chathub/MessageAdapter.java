@@ -12,8 +12,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.auth.FirebaseAuth;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -23,10 +21,16 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
     private final Context context;
     private List<Mensaje> messages;
+    private final ProveedorNombre proveedorNombre;
 
-    public MessageAdapter(Context context, List<Mensaje> messages) {
+    public interface ProveedorNombre {
+        String getNombreActual();
+    }
+
+    public MessageAdapter(Context context, List<Mensaje> messages, ProveedorNombre proveedorNombre) {
         this.context = context;
         this.messages = messages;
+        this.proveedorNombre = proveedorNombre;
     }
 
     public void setMessages(List<Mensaje> messages) {
@@ -37,7 +41,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     @NonNull
     @Override
     public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Inflamos el layout item_chat.xml
         View view = LayoutInflater.from(context)
                 .inflate(R.layout.item_chat, parent, false);
         return new MessageViewHolder(view);
@@ -47,30 +50,23 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
         Mensaje msg = messages.get(position);
 
-        // 1. Asignar texto y usuario
         holder.user.setText(msg.getUsuario());
         holder.text.setText(msg.getTexto());
 
-        // 2. Formatear y asignar hora
         String horaFormateada = new SimpleDateFormat("HH:mm", Locale.getDefault())
                 .format(new Date(msg.getHora()));
         holder.hora.setText(horaFormateada);
 
-        // 3. Determinar si es mensaje propio
-        String currentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-        boolean isMine = msg.getUsuario().equals(currentUser);
+        String currentUserName = proveedorNombre.getNombreActual();
+        boolean isMine = msg.getUsuario().equals(currentUserName);
 
-        // 4. Ajustar LayoutParams del LinearLayout hijo (messageContainer)
         FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)
                 holder.container.getLayoutParams();
         params.gravity = isMine ? Gravity.END : Gravity.START;
         holder.container.setLayoutParams(params);
 
-        // 5. Cambiar fondo según remitente
         holder.container.setBackgroundResource(
-                isMine
-                        ? R.drawable.bg_message_mine
-                        : R.drawable.bg_message_other
+                isMine ? R.drawable.bg_message_mine : R.drawable.bg_message_other
         );
     }
 
@@ -80,16 +76,15 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     }
 
     static class MessageViewHolder extends RecyclerView.ViewHolder {
-        LinearLayout container;  // Cambiado a LinearLayout
+        LinearLayout container;
         TextView user, text, hora;
 
         public MessageViewHolder(@NonNull View itemView) {
             super(itemView);
-            // 'messageContainer' es el LinearLayout dentro del FrameLayout
             container = itemView.findViewById(R.id.messageContainer);
-            user      = itemView.findViewById(R.id.usuarioTextView);
-            text      = itemView.findViewById(R.id.mensajeTextView);
-            hora      = itemView.findViewById(R.id.horaTextView);
+            user = itemView.findViewById(R.id.usuarioTextView);
+            text = itemView.findViewById(R.id.mensajeTextView);
+            hora = itemView.findViewById(R.id.horaTextView);
         }
     }
 }

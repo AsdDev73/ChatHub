@@ -26,7 +26,7 @@ public class HomeActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerViewChats);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        List<String> chatRooms = Arrays.asList("General", "Futbol", "Programacion", "Cine", "Videojuegos");
+        List<String> chatRooms = Arrays.asList("General", "Fútbol", "Programación", "Cine", "Videojuegos");
         adapter = new ChatListAdapter(chatRooms, roomName -> {
             Intent intent = new Intent(HomeActivity.this, ChatActivity.class);
             intent.putExtra("roomName", roomName.toLowerCase());

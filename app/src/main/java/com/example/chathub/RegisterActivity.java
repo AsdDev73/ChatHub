@@ -1,17 +1,20 @@
 package com.example.chathub;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.content.Intent;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -44,15 +47,31 @@ public class RegisterActivity extends AppCompatActivity {
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
-                            Toast.makeText(RegisterActivity.this, "Usuario registrado exitosamente", Toast.LENGTH_SHORT).show();
-                            finish(); // Cierra esta actividad y vuelve al login
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            if (user != null) {
+                                FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                                Map<String, Object> userMap = new HashMap<>();
+                                userMap.put("name", name);
+                                userMap.put("email", email);
+
+                                db.collection("usuarios").document(user.getUid())
+                                        .set(userMap)
+                                        .addOnSuccessListener(aVoid -> {
+                                            Toast.makeText(RegisterActivity.this, "Usuario registrado exitosamente", Toast.LENGTH_SHORT).show();
+                                            finish(); // Vuelve al login
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            Toast.makeText(RegisterActivity.this, "Error al guardar los datos: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                                        });
+                            }
                         } else {
                             Toast.makeText(RegisterActivity.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
         });
+
         ImageButton buttonBack = findViewById(R.id.buttonBack);
         buttonBack.setOnClickListener(v -> onBackPressed());
-
     }
 }

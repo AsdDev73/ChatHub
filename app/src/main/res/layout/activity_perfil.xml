@@ -8,6 +8,19 @@
     android:background="@color/colorWhite"
     android:padding="24dp">
 
+    <!-- Botón volver (nuevo arriba a la izquierda) -->
+    <ImageButton
+        android:id="@+id/buttonBack"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Volver atrás"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp" />
+
     <!-- Título -->
     <TextView
         android:id="@+id/tituloPerfil"
@@ -93,19 +106,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Botón Volver -->
-    <Button
-        android:id="@+id/btnVolverChats"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:text="Volver a Chats"
-        android:layout_marginTop="12dp"
-        android:backgroundTint="@color/colorGreyOscuro"
-        android:textColor="@android:color/white"
-        app:layout_constraintTop_toBottomOf="@id/btnGuardarPerfil"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
     <!-- Botón Cerrar Sesión -->
     <Button
         android:id="@+id/btnCerrarSesion"
@@ -115,7 +115,8 @@
         android:layout_marginTop="12dp"
         android:backgroundTint="@color/colorGreyOscuro"
         android:textColor="@android:color/white"
-        app:layout_constraintTop_toBottomOf="@id/btnVolverChats"
+        app:layout_constraintTop_toBottomOf="@id/btnGuardarPerfil"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

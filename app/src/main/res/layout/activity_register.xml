@@ -4,102 +4,135 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorGreyClaro">
+    android:background="@color/colorGreyClaro"
+    android:padding="24dp">
 
+    <!-- Botón volver -->
     <ImageButton
         android:id="@+id/buttonBack"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@android:drawable/ic_menu_close_clear_cancel"
         android:background="?android:attr/selectableItemBackgroundBorderless"
-        android:contentDescription="Volver atrás"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp" />
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <!-- Título -->
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ChatHub"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:fontFamily="sans-serif-medium"
-        android:textColor="@android:color/black"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/imageView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="48dp"/>
-
-    <!-- Logo -->
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="140dp"
-        android:layout_height="140dp"
-        android:layout_marginTop="16dp"
-        app:srcCompat="@drawable/logo"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintBottom_toTopOf="@+id/registerLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <!-- Formulario de registro -->
-    <LinearLayout
-        android:id="@+id/registerLayout"
+        android:id="@+id/textViewTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="24dp"
-        android:background="@android:color/white"
-        android:elevation="4dp"
-        android:layout_marginHorizontal="32dp"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="Registro"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/buttonBack"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Avatar -->
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imageButtonAvatar"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/ic_usuario"
+        app:shapeAppearanceOverlay="@style/CircleShape"
+        app:layout_constraintTop_toBottomOf="@id/textViewTitle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        android:layout_marginTop="24dp"/>
 
-        <EditText
-            android:id="@+id/editTextName"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Nombre completo"
-            android:padding="12dp"
-            android:background="@drawable/edit_text_bg"
-            android:layout_marginBottom="16dp" />
+    <!-- Nombre completo -->
+    <EditText
+        android:id="@+id/editTextName"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:hint="Nombre completo"
+        android:background="@drawable/edit_text_bg"
+        android:padding="12dp"
+        app:layout_constraintTop_toBottomOf="@id/imageButtonAvatar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"/>
 
-        <EditText
-            android:id="@+id/editTextEmailRegister"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Correo electrónico"
-            android:padding="12dp"
-            android:background="@drawable/edit_text_bg"
-            android:layout_marginBottom="16dp"
-            android:inputType="textEmailAddress" />
+    <!-- Correo -->
+    <EditText
+        android:id="@+id/editTextEmailRegister"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:hint="Correo electrónico"
+        android:inputType="textEmailAddress"
+        android:background="@drawable/edit_text_bg"
+        android:padding="12dp"
+        app:layout_constraintTop_toBottomOf="@id/editTextName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"/>
 
-        <EditText
-            android:id="@+id/editTextPasswordRegister"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="Contraseña"
-            android:padding="12dp"
-            android:background="@drawable/edit_text_bg"
-            android:inputType="textPassword"
-            android:layout_marginBottom="24dp" />
+    <!-- Contraseña -->
+    <EditText
+        android:id="@+id/editTextPasswordRegister"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:hint="Contraseña"
+        android:inputType="textPassword"
+        android:background="@drawable/edit_text_bg"
+        android:padding="12dp"
+        app:layout_constraintTop_toBottomOf="@id/editTextEmailRegister"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"/>
 
-        <Button
-            android:id="@+id/buttonRegister"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="Registrarse"
-            android:textColor="@android:color/white"
-            android:backgroundTint="@color/black"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+    <!-- Confirmar contraseña -->
+    <EditText
+        android:id="@+id/editTextPasswordConfirm"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:hint="Confirmar contraseña"
+        android:inputType="textPassword"
+        android:background="@drawable/edit_text_bg"
+        android:padding="12dp"
+        app:layout_constraintTop_toBottomOf="@id/editTextPasswordRegister"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"/>
+
+    <!-- Fecha de nacimiento -->
+    <EditText
+        android:id="@+id/editTextFechaNacimiento"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:hint="Fecha de nacimiento"
+        android:focusable="false"
+        android:background="@drawable/edit_text_bg"
+        android:padding="12dp"
+        app:layout_constraintTop_toBottomOf="@id/editTextPasswordConfirm"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"/>
+
+    <!-- Sexo -->
+    <Spinner
+        android:id="@+id/spinnerSexo"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@drawable/edit_text_bg"
+        android:padding="12dp"
+        app:layout_constraintTop_toBottomOf="@id/editTextFechaNacimiento"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"/>
+
+    <!-- Botón Registrarse -->
+    <Button
+        android:id="@+id/buttonRegister"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:text="Registrarse"
+        android:textColor="@android:color/white"
+        android:backgroundTint="@color/colorGreyOscuro"
+        app:layout_constraintTop_toBottomOf="@id/spinnerSexo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

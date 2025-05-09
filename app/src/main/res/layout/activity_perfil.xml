@@ -36,17 +36,19 @@
         android:layout_marginTop="24dp"/>
 
     <!-- Imagen de perfil -->
-    <ImageView
-        android:id="@+id/fotoPerfil"
+    <ImageButton
+        android:id="@+id/imageButtonPerfil"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="24dp"
         android:src="@drawable/ic_usuario"
         android:background="@drawable/circle_background"
         android:scaleType="centerCrop"
+        android:contentDescription="Seleccionar avatar"
         app:layout_constraintTop_toBottomOf="@id/tituloPerfil"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
+
 
     <!-- Nombre -->
     <EditText
@@ -59,7 +61,7 @@
         android:padding="12dp"
         android:textColor="@android:color/black"
         android:textColorHint="#888"
-        app:layout_constraintTop_toBottomOf="@id/fotoPerfil"
+        app:layout_constraintTop_toBottomOf="@id/imageButtonPerfil"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="24dp"/>

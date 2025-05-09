@@ -60,4 +60,6 @@ dependencies {
     androidTestImplementation("androidx.espresso:espresso-core:3.4.0") // Dependencia para pruebas de UI con Espresso
 
     implementation("com.google.android.material:material:1.5.0")
+    implementation ("com.google.android.material:material:1.12.0")// Usa la versión más reciente
+
 }

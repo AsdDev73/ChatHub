@@ -9,6 +9,10 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,6 +20,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private ChatListAdapter adapter;
+    private ImageView perfilIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,13 +37,36 @@ public class HomeActivity extends AppCompatActivity {
             intent.putExtra("roomName", roomName.toLowerCase());
             startActivity(intent);
         });
-        ImageView perilIcon = findViewById(R.id.imageView2);
-        perilIcon.setOnClickListener(v -> {
+
+        recyclerView.setAdapter(adapter);
+
+        perfilIcon = findViewById(R.id.imageView2);
+        perfilIcon.setOnClickListener(v -> {
             Intent intent = new Intent(HomeActivity.this, PerfilActivity.class);
             startActivity(intent);
         });
 
-        recyclerView.setAdapter(adapter);
+        cargarAvatarDesdeFirestore();
+    }
 
+    private void cargarAvatarDesdeFirestore() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            FirebaseFirestore.getInstance().collection("usuarios")
+                    .document(currentUser.getUid())
+                    .get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            String avatarName = documentSnapshot.getString("avatar");
+                            if (avatarName != null) {
+                                int avatarResId = getResources().getIdentifier(avatarName, "drawable", getPackageName());
+                                if (avatarResId != 0) {
+                                    perfilIcon.setImageResource(avatarResId);
+                                }
+                            }
+                        }
+                    })
+                    .addOnFailureListener(Throwable::printStackTrace);
+        }
     }
 }

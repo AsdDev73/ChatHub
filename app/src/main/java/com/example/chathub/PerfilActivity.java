@@ -25,11 +25,14 @@ public class PerfilActivity extends AppCompatActivity {
     private EditText editTextNombre, editTextFecha;
     private Spinner spinnerSexo;
     private Button btnGuardar, btnCerrarSesion;
-    private ImageButton buttonBack;
+    private ImageButton buttonBack, imagenPerfil;
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private FirebaseUser currentUser;
+
+    private static final int REQUEST_AVATAR = 1;
+    private String avatarSeleccionado = "avatar1"; // valor por defecto
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +51,7 @@ public class PerfilActivity extends AppCompatActivity {
         btnGuardar = findViewById(R.id.btnGuardarPerfil);
         btnCerrarSesion = findViewById(R.id.btnCerrarSesion);
         buttonBack = findViewById(R.id.buttonBack);
+        imagenPerfil = findViewById(R.id.imageButtonPerfil);
 
         // Spinner sexo
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -55,7 +59,7 @@ public class PerfilActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerSexo.setAdapter(adapter);
 
-        // Fecha
+        // Fecha de nacimiento
         editTextFecha.setOnClickListener(v -> {
             final Calendar c = Calendar.getInstance();
             int year = c.get(Calendar.YEAR);
@@ -69,10 +73,13 @@ public class PerfilActivity extends AppCompatActivity {
             datePickerDialog.show();
         });
 
+        // Cargar datos de Firestore
         cargarDatosUsuario();
 
+        // Guardar cambios
         btnGuardar.setOnClickListener(v -> guardarCambios());
 
+        // Cerrar sesión
         btnCerrarSesion.setOnClickListener(v -> {
             mAuth.signOut();
             Intent intent = new Intent(PerfilActivity.this, LogIn.class);
@@ -81,10 +88,17 @@ public class PerfilActivity extends AppCompatActivity {
             finish();
         });
 
+        // Botón de volver
         buttonBack.setOnClickListener(v -> {
             Intent intent = new Intent(PerfilActivity.this, HomeActivity.class);
             startActivity(intent);
             finish();
+        });
+
+        // Cambiar avatar
+        imagenPerfil.setOnClickListener(v -> {
+            Intent intent = new Intent(PerfilActivity.this, SeleccionarAvatarActivity.class);
+            startActivityForResult(intent, REQUEST_AVATAR);
         });
     }
 
@@ -97,6 +111,7 @@ public class PerfilActivity extends AppCompatActivity {
                             String nombre = documentSnapshot.getString("name");
                             String fechaNacimiento = documentSnapshot.getString("fechaNacimiento");
                             String sexo = documentSnapshot.getString("sexo");
+                            String avatarName = documentSnapshot.getString("avatar");
 
                             if (nombre != null) editTextNombre.setText(nombre);
                             if (fechaNacimiento != null) editTextFecha.setText(fechaNacimiento);
@@ -104,6 +119,12 @@ public class PerfilActivity extends AppCompatActivity {
                                 ArrayAdapter<CharSequence> adapter = (ArrayAdapter<CharSequence>) spinnerSexo.getAdapter();
                                 int position = adapter.getPosition(sexo);
                                 if (position >= 0) spinnerSexo.setSelection(position);
+                            }
+
+                            if (avatarName != null) {
+                                int avatarResId = getResources().getIdentifier(avatarName, "drawable", getPackageName());
+                                imagenPerfil.setImageResource(avatarResId);
+                                avatarSeleccionado = avatarName;
                             }
                         }
                     })
@@ -127,6 +148,7 @@ public class PerfilActivity extends AppCompatActivity {
             updates.put("name", nombre);
             updates.put("fechaNacimiento", fechaNacimiento);
             updates.put("sexo", sexo);
+            updates.put("avatar", avatarSeleccionado);
 
             db.collection("usuarios").document(currentUser.getUid())
                     .update(updates)
@@ -134,6 +156,19 @@ public class PerfilActivity extends AppCompatActivity {
                             Toast.makeText(this, "Perfil actualizado", Toast.LENGTH_SHORT).show())
                     .addOnFailureListener(e ->
                             Toast.makeText(this, "Error al guardar: " + e.getMessage(), Toast.LENGTH_LONG).show());
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_AVATAR && resultCode == RESULT_OK) {
+            String avatarName = data.getStringExtra("avatarName");
+            if (avatarName != null) {
+                int avatarResId = getResources().getIdentifier(avatarName, "drawable", getPackageName());
+                imagenPerfil.setImageResource(avatarResId);
+                avatarSeleccionado = avatarName;
+            }
         }
     }
 }

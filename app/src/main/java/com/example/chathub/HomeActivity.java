@@ -37,10 +37,10 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-
+    // Configurar el RecyclerView
         recyclerView = findViewById(R.id.recyclerViewChats);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
+    
         List<String> chatRooms = Arrays.asList("General", "Fútbol", "Programación", "Cine", "Videojuegos");
         adapter = new ChatListAdapter(chatRooms, roomName -> {
             Intent intent = new Intent(HomeActivity.this, ChatActivity.class);
@@ -60,7 +60,7 @@ public class HomeActivity extends AppCompatActivity {
         fabSolicitarChat = findViewById(R.id.fabSolicitarChat);
         fabSolicitarChat.setOnClickListener(v -> mostrarDialogoSolicitud());
     }
-
+    // cargar el avatar desde la base de datos
     private void cargarAvatarDesdeFirestore() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
@@ -78,6 +78,7 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    //abrir el dialogo de solicitud
     private void mostrarDialogoSolicitud() {
         View dialogView = LayoutInflater.from(this)
                 .inflate(R.layout.dialog_solicitud_chat, null);
@@ -97,7 +98,7 @@ public class HomeActivity extends AppCompatActivity {
                 .setNegativeButton("Cancelar", null)
                 .show();
     }
-
+    // metodo enviar la solicitud a la base de datos
     private void enviarSolicitudFirestore(String texto) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) return;

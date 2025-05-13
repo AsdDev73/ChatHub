@@ -3,11 +3,16 @@ package com.example.chathub;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.*;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -22,10 +27,10 @@ public class RegisterActivity extends AppCompatActivity {
     private static final String AVATAR_POR_DEFECTO = "ic_usuario";
     private static final int REQUEST_AVATAR = 1;
 
+    private MaterialToolbar toolbar;
+    private ShapeableImageView imageButtonAvatar;
     private EditText editTextName, editTextEmail, editTextPassword, editTextPasswordConfirm, editTextFecha;
     private Spinner spinnerSexo;
-    private ImageButton buttonBack;
-    private ShapeableImageView imageButtonAvatar;
     private Button buttonRegister;
 
     private FirebaseAuth mAuth;
@@ -41,41 +46,42 @@ public class RegisterActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        // UI
-        buttonBack             = findViewById(R.id.buttonBack);
-        imageButtonAvatar      = findViewById(R.id.imageButtonAvatar);
-        editTextName           = findViewById(R.id.editTextName);
-        editTextEmail          = findViewById(R.id.editTextEmailRegister);
-        editTextPassword       = findViewById(R.id.editTextPasswordRegister);
-        editTextPasswordConfirm= findViewById(R.id.editTextPasswordConfirm);
-        editTextFecha          = findViewById(R.id.editTextFechaNacimiento);
-        spinnerSexo            = findViewById(R.id.spinnerSexo);
-        buttonRegister         = findViewById(R.id.buttonRegister);
+        // Toolbar
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(v -> finish());
 
-        // Spinner sexo
+        // UI
+        imageButtonAvatar       = findViewById(R.id.imageButtonAvatar);
+        editTextName            = findViewById(R.id.editTextName);
+        editTextEmail           = findViewById(R.id.editTextEmailRegister);
+        editTextPassword        = findViewById(R.id.editTextPasswordRegister);
+        editTextPasswordConfirm = findViewById(R.id.editTextPasswordConfirm);
+        editTextFecha           = findViewById(R.id.editTextFechaNacimiento);
+        spinnerSexo             = findViewById(R.id.spinnerSexo);
+        buttonRegister          = findViewById(R.id.buttonRegister);
+
+        // Spinner de sexo
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.sexo_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerSexo.setAdapter(adapter);
 
-        // Fecha picker
+        // Date picker para fecha de nacimiento
         editTextFecha.setOnClickListener(v -> {
             Calendar c = Calendar.getInstance();
             new DatePickerDialog(this,
-                    (view, year, month, day) ->
-                            editTextFecha.setText(day + "/" + (month + 1) + "/" + year),
+                    (view, year, month, dayOfMonth) ->
+                            editTextFecha.setText(dayOfMonth + "/" + (month + 1) + "/" + year),
                     c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)
             ).show();
         });
 
-        // Elegir avatar
+        // Seleccionar avatar
         imageButtonAvatar.setOnClickListener(v -> {
             Intent intent = new Intent(this, SeleccionarAvatarActivity.class);
             startActivityForResult(intent, REQUEST_AVATAR);
         });
-
-        // Volver
-        buttonBack.setOnClickListener(v -> onBackPressed());
 
         // Registro
         buttonRegister.setOnClickListener(v -> {
@@ -91,8 +97,7 @@ public class RegisterActivity extends AppCompatActivity {
                 Toast.makeText(this, "Por favor elige un avatar", Toast.LENGTH_SHORT).show();
                 return;
             }
-
-            // Validar campos
+            // Validar campos vacíos
             if (name.isEmpty() || email.isEmpty() || password.isEmpty()
                     || confirm.isEmpty() || fecha.isEmpty()) {
                 Toast.makeText(this, "Completa todos los campos", Toast.LENGTH_SHORT).show();
@@ -104,6 +109,7 @@ public class RegisterActivity extends AppCompatActivity {
                 return;
             }
 
+            // Crear usuario
             mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
@@ -124,7 +130,8 @@ public class RegisterActivity extends AppCompatActivity {
                                             finish();
                                         })
                                         .addOnFailureListener(e ->
-                                                Toast.makeText(this, "Error al guardar: " + e.getMessage(),
+                                                Toast.makeText(this,
+                                                        "Error al guardar: " + e.getMessage(),
                                                         Toast.LENGTH_LONG).show()
                                         );
                             }
@@ -142,8 +149,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_AVATAR && resultCode == RESULT_OK && data != null) {
             avatarSeleccionado = data.getStringExtra("avatarName");
-            int resId = getResources()
-                    .getIdentifier(avatarSeleccionado, "drawable", getPackageName());
+            int resId = getResources().getIdentifier(avatarSeleccionado, "drawable", getPackageName());
             imageButtonAvatar.setImageResource(resId);
         }
     }

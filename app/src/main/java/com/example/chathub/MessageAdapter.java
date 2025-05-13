@@ -12,6 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -21,16 +23,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
     private final Context context;
     private List<Mensaje> messages;
-    private final ProveedorNombre proveedorNombre;
+    private final String currentUserUid;
 
-    public interface ProveedorNombre {
-        String getNombreActual();
-    }
-
-    public MessageAdapter(Context context, List<Mensaje> messages, ProveedorNombre proveedorNombre) {
+    public MessageAdapter(Context context, List<Mensaje> messages) {
         this.context = context;
         this.messages = messages;
-        this.proveedorNombre = proveedorNombre;
+        this.currentUserUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
     public void setMessages(List<Mensaje> messages) {
@@ -57,8 +55,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                 .format(new Date(msg.getHora()));
         holder.hora.setText(horaFormateada);
 
-        String currentUserName = proveedorNombre.getNombreActual();
-        boolean isMine = msg.getUsuario().equals(currentUserName);
+        boolean isMine = msg.getUid() != null && msg.getUid().equals(currentUserUid);
 
         FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)
                 holder.container.getLayoutParams();

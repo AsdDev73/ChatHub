@@ -4,7 +4,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorGreyClaro">
+    android:background="@color/colorGreyClaro"
+    android:fitsSystemWindows="true">
 
     <!-- Línea superior decorativa -->
     <View
@@ -18,13 +19,14 @@
         android:layout_height="64dp"
         android:background="@color/colorGreyOscuro"
         android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp">
 
         <ImageButton
             android:id="@+id/btnVolver"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginStart="8dp"
             android:background="@android:color/transparent"
             android:src="@drawable/ic_back"
             android:contentDescription="Volver" />
@@ -47,7 +49,8 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:padding="4dp" />
 
     <!-- Input de mensaje y botón enviar -->
     <LinearLayout

@@ -28,7 +28,8 @@ public class ChatActivity extends AppCompatActivity {
     private TextView tituloTextView;
     private CollectionReference messagesRef;
 
-    private String nombreUsuario ;
+    private String uidUsuario;
+    private String nombreUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,41 +56,43 @@ public class ChatActivity extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         messagesRef = db.collection("rooms").document(chatName).collection("messages");
 
-        // Cargar el nombre del usuario y almacenarlo localmente
+        uidUsuario = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
         db.collection("usuarios")
-                .document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .document(uidUsuario)
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
                         nombreUsuario = documentSnapshot.getString("name");
+
+                        adaptador = new MessageAdapter(this, new ArrayList<>());
+                        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                        recyclerView.setAdapter(adaptador);
+
+                        messagesRef.orderBy("hora", Query.Direction.ASCENDING)
+                                .addSnapshotListener((snapshots, error) -> {
+                                    if (error != null || snapshots == null) return;
+                                    List<Mensaje> lista = new ArrayList<>();
+                                    for (DocumentSnapshot doc : snapshots.getDocuments()) {
+                                        Mensaje m = doc.toObject(Mensaje.class);
+                                        if (m != null) lista.add(m);
+                                    }
+                                    adaptador.setMessages(lista);
+                                    recyclerView.scrollToPosition(lista.size() - 1);
+                                });
+
+                        botonEnviar.setOnClickListener(v -> {
+                            String texto = mensajeEnviado.getText().toString().trim();
+                            if (!texto.isEmpty()) {
+                                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                Mensaje m = new Mensaje(nombreUsuario, texto, System.currentTimeMillis(), uid);
+                                messagesRef.add(m)
+                                        .addOnSuccessListener(docRef -> mensajeEnviado.setText(""))
+                                        .addOnFailureListener(e -> Toast.makeText(this, "Error al enviar: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                            }
+                        });
                     }
                 });
-
-        adaptador = new MessageAdapter(this, new ArrayList<>(), () -> nombreUsuario);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adaptador);
-
-        messagesRef.orderBy("hora", Query.Direction.ASCENDING)
-                .addSnapshotListener((snapshots, error) -> {
-                    if (error != null || snapshots == null) return;
-                    List<Mensaje> lista = new ArrayList<>();
-                    for (DocumentSnapshot doc : snapshots.getDocuments()) {
-                        Mensaje m = doc.toObject(Mensaje.class);
-                        if (m != null) lista.add(m);
-                    }
-                    adaptador.setMessages(lista);
-                    recyclerView.scrollToPosition(lista.size() - 1);
-                });
-
-        botonEnviar.setOnClickListener(v -> {
-            String texto = mensajeEnviado.getText().toString().trim();
-            if (!texto.isEmpty() && nombreUsuario != null) {
-                Mensaje m = new Mensaje(nombreUsuario, texto, System.currentTimeMillis());
-                messagesRef.add(m)
-                        .addOnSuccessListener(docRef -> mensajeEnviado.setText(""))
-                        .addOnFailureListener(e -> Toast.makeText(this, "Error al enviar: " + e.getMessage(), Toast.LENGTH_SHORT).show());
-            }
-        });
 
         btnVolver.setOnClickListener(v -> finish());
     }

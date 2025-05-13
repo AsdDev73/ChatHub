@@ -4,17 +4,18 @@ public class Mensaje {
     private String usuario;
     private String texto;
     private long hora;
+    private String uid;
 
     public Mensaje() {}
 
-    public Mensaje(String usuario, String texto, long hora) {
+    public Mensaje(String usuario, String texto, long hora, String uid) {
         this.usuario = usuario;
         this.texto = texto;
         this.hora = hora;
+        this.uid = uid;
     }
 
     // Getters y setters
-
     public long getHora() {
         return hora;
     }
@@ -38,5 +39,12 @@ public class Mensaje {
     public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
-}
 
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+}

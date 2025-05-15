@@ -90,7 +90,7 @@ public class LogIn extends AppCompatActivity {
             }
         }
     }
-
+    // autenticar con Firebase
     private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential)

@@ -25,8 +25,8 @@
 
         <ImageButton
             android:id="@+id/btnVolver"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:src="@drawable/ic_back"
             android:contentDescription="Volver" />
@@ -36,13 +36,14 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:fontFamily="sans-serif-medium"
             android:gravity="center"
             android:text="General"
-            android:textSize="24sp"
-            android:textStyle="bold"
             android:textColor="@android:color/white"
-            android:fontFamily="sans-serif-medium"/>
+            android:textSize="24sp"
+            android:textStyle="bold" />
     </LinearLayout>
+
 
     <!-- Lista de mensajes -->
     <androidx.recyclerview.widget.RecyclerView

@@ -50,16 +50,15 @@ public class RegisterActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(v -> finish());
-
-        // UI
-        imageButtonAvatar       = findViewById(R.id.imageButtonAvatar);
-        editTextName            = findViewById(R.id.editTextName);
-        editTextEmail           = findViewById(R.id.editTextEmailRegister);
-        editTextPassword        = findViewById(R.id.editTextPasswordRegister);
+        
+        imageButtonAvatar = findViewById(R.id.imageButtonAvatar);
+        editTextName = findViewById(R.id.editTextName);
+        editTextEmail = findViewById(R.id.editTextEmailRegister);
+        editTextPassword = findViewById(R.id.editTextPasswordRegister);
         editTextPasswordConfirm = findViewById(R.id.editTextPasswordConfirm);
-        editTextFecha           = findViewById(R.id.editTextFechaNacimiento);
-        spinnerSexo             = findViewById(R.id.spinnerSexo);
-        buttonRegister          = findViewById(R.id.buttonRegister);
+        editTextFecha = findViewById(R.id.editTextFechaNacimiento);
+        spinnerSexo = findViewById(R.id.spinnerSexo);
+        buttonRegister = findViewById(R.id.buttonRegister);
 
         // Spinner de sexo
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -85,29 +84,54 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Registro
         buttonRegister.setOnClickListener(v -> {
-            String name     = editTextName.getText().toString().trim();
-            String email    = editTextEmail.getText().toString().trim();
+            String name = editTextName.getText().toString().trim();
+            String email = editTextEmail.getText().toString().trim();
             String password = editTextPassword.getText().toString().trim();
-            String confirm  = editTextPasswordConfirm.getText().toString().trim();
-            String fecha    = editTextFecha.getText().toString().trim();
-            String sexo     = spinnerSexo.getSelectedItem().toString();
+            String confirm = editTextPasswordConfirm.getText().toString().trim();
+            String fecha = editTextFecha.getText().toString().trim();
+            String sexo = spinnerSexo.getSelectedItem().toString();
 
-            // Validar avatar
+            boolean valido = true;
+
+            // Resetear fondos
+            resetearErrores();
+
             if (AVATAR_POR_DEFECTO.equals(avatarSeleccionado)) {
                 Toast.makeText(this, "Por favor elige un avatar", Toast.LENGTH_SHORT).show();
                 return;
             }
-            // Validar campos vacíos
-            if (name.isEmpty() || email.isEmpty() || password.isEmpty()
-                    || confirm.isEmpty() || fecha.isEmpty()) {
-                Toast.makeText(this, "Completa todos los campos", Toast.LENGTH_SHORT).show();
-                return;
+
+            if (name.isEmpty()) {
+                marcarError(editTextName, "Campo obligatorio");
+                valido = false;
             }
-            // Validar contraseña
+
+            if (email.isEmpty()) {
+                marcarError(editTextEmail, "Campo obligatorio");
+                valido = false;
+            }
+
+            if (password.isEmpty()) {
+                marcarError(editTextPassword, "Campo obligatorio");
+                valido = false;
+            }
+
+            if (confirm.isEmpty()) {
+                marcarError(editTextPasswordConfirm, "Campo obligatorio");
+                valido = false;
+            }
+
+            if (fecha.isEmpty()) {
+                marcarError(editTextFecha, "Campo obligatorio");
+                valido = false;
+            }
+
             if (!password.equals(confirm)) {
-                Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
-                return;
+                marcarError(editTextPasswordConfirm, "Las contraseñas no coinciden");
+                valido = false;
             }
+
+            if (!valido) return;
 
             // Crear usuario
             mAuth.createUserWithEmailAndPassword(email, password)
@@ -115,7 +139,7 @@ public class RegisterActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
                             if (user != null) {
-                                Map<String,Object> userMap = new HashMap<>();
+                                Map<String, Object> userMap = new HashMap<>();
                                 userMap.put("name", name);
                                 userMap.put("email", email);
                                 userMap.put("fechaNacimiento", fecha);
@@ -142,6 +166,19 @@ public class RegisterActivity extends AppCompatActivity {
                         }
                     });
         });
+    }
+
+    private void marcarError(EditText campo, String mensaje) {
+        campo.setError(mensaje);
+        campo.setBackgroundResource(R.drawable.edit_text_error_bg);
+    }
+
+    private void resetearErrores() {
+        editTextName.setBackgroundResource(R.drawable.edit_text_bg);
+        editTextEmail.setBackgroundResource(R.drawable.edit_text_bg);
+        editTextPassword.setBackgroundResource(R.drawable.edit_text_bg);
+        editTextPasswordConfirm.setBackgroundResource(R.drawable.edit_text_bg);
+        editTextFecha.setBackgroundResource(R.drawable.edit_text_bg);
     }
 
     @Override

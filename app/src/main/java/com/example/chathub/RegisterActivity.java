@@ -2,6 +2,8 @@ package com.example.chathub;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -11,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.imageview.ShapeableImageView;
@@ -50,15 +53,16 @@ public class RegisterActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(v -> finish());
-        
-        imageButtonAvatar = findViewById(R.id.imageButtonAvatar);
-        editTextName = findViewById(R.id.editTextName);
-        editTextEmail = findViewById(R.id.editTextEmailRegister);
-        editTextPassword = findViewById(R.id.editTextPasswordRegister);
+
+        // UI
+        imageButtonAvatar       = findViewById(R.id.imageButtonAvatar);
+        editTextName            = findViewById(R.id.editTextName);
+        editTextEmail           = findViewById(R.id.editTextEmailRegister);
+        editTextPassword        = findViewById(R.id.editTextPasswordRegister);
         editTextPasswordConfirm = findViewById(R.id.editTextPasswordConfirm);
-        editTextFecha = findViewById(R.id.editTextFechaNacimiento);
-        spinnerSexo = findViewById(R.id.spinnerSexo);
-        buttonRegister = findViewById(R.id.buttonRegister);
+        editTextFecha           = findViewById(R.id.editTextFechaNacimiento);
+        spinnerSexo             = findViewById(R.id.spinnerSexo);
+        buttonRegister          = findViewById(R.id.buttonRegister);
 
         // Spinner de sexo
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -84,50 +88,50 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Registro
         buttonRegister.setOnClickListener(v -> {
-            String name = editTextName.getText().toString().trim();
-            String email = editTextEmail.getText().toString().trim();
+            limpiarErrores();
+
+            String name     = editTextName.getText().toString().trim();
+            String email    = editTextEmail.getText().toString().trim();
             String password = editTextPassword.getText().toString().trim();
-            String confirm = editTextPasswordConfirm.getText().toString().trim();
-            String fecha = editTextFecha.getText().toString().trim();
-            String sexo = spinnerSexo.getSelectedItem().toString();
+            String confirm  = editTextPasswordConfirm.getText().toString().trim();
+            String fecha    = editTextFecha.getText().toString().trim();
+            String sexo     = spinnerSexo.getSelectedItem().toString();
 
             boolean valido = true;
 
-            // Resetear fondos
-            resetearErrores();
-
             if (AVATAR_POR_DEFECTO.equals(avatarSeleccionado)) {
                 Toast.makeText(this, "Por favor elige un avatar", Toast.LENGTH_SHORT).show();
-                return;
+                valido = false;
             }
 
             if (name.isEmpty()) {
-                marcarError(editTextName, "Campo obligatorio");
+                marcarError(editTextName, "Campo requerido");
                 valido = false;
             }
 
             if (email.isEmpty()) {
-                marcarError(editTextEmail, "Campo obligatorio");
+                marcarError(editTextEmail, "Campo requerido");
+                valido = false;
+            } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                marcarError(editTextEmail, "Correo inválido (ej: ejemplo@correo.com)");
                 valido = false;
             }
 
             if (password.isEmpty()) {
-                marcarError(editTextPassword, "Campo obligatorio");
+                marcarError(editTextPassword, "Campo requerido");
                 valido = false;
             }
 
             if (confirm.isEmpty()) {
-                marcarError(editTextPasswordConfirm, "Campo obligatorio");
+                marcarError(editTextPasswordConfirm, "Campo requerido");
+                valido = false;
+            } else if (!password.equals(confirm)) {
+                marcarError(editTextPasswordConfirm, "Las contraseñas no coinciden");
                 valido = false;
             }
 
             if (fecha.isEmpty()) {
-                marcarError(editTextFecha, "Campo obligatorio");
-                valido = false;
-            }
-
-            if (!password.equals(confirm)) {
-                marcarError(editTextPasswordConfirm, "Las contraseñas no coinciden");
+                marcarError(editTextFecha, "Campo requerido");
                 valido = false;
             }
 
@@ -170,15 +174,19 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void marcarError(EditText campo, String mensaje) {
         campo.setError(mensaje);
-        campo.setBackgroundResource(R.drawable.edit_text_error_bg);
+        campo.requestFocus();
+        campo.setBackground(ContextCompat.getDrawable(this, R.drawable.edit_text_bg_error));
     }
 
-    private void resetearErrores() {
-        editTextName.setBackgroundResource(R.drawable.edit_text_bg);
-        editTextEmail.setBackgroundResource(R.drawable.edit_text_bg);
-        editTextPassword.setBackgroundResource(R.drawable.edit_text_bg);
-        editTextPasswordConfirm.setBackgroundResource(R.drawable.edit_text_bg);
-        editTextFecha.setBackgroundResource(R.drawable.edit_text_bg);
+    private void limpiarErrores() {
+        EditText[] campos = {
+                editTextName, editTextEmail, editTextPassword,
+                editTextPasswordConfirm, editTextFecha
+        };
+        for (EditText campo : campos) {
+            campo.setError(null);
+            campo.setBackground(ContextCompat.getDrawable(this, R.drawable.edit_text_bg));
+        }
     }
 
     @Override

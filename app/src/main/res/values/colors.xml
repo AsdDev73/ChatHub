@@ -6,5 +6,12 @@
     <color name="colorRed">#C11515</color>
     <color name="colorGreyClaro">#dddddd</color>
     <color name="colorGreyOscuro">#ababab</color>
+    <color name="gray_100">#F5F5F5</color>
+    <color name="gray_400">#BDBDBD</color>
+    <color name="gray_500">#9E9E9E</color>
+    <color name="gray_800">#424242</color>
+    <color name="gray_900">#212121</color>
+    <color name="gray_50">#FAFAFA</color>
+    <color name="gray_700">#616161</color>
 
 </resources>

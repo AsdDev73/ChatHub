@@ -1,13 +1,16 @@
 package com.example.chathub;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.GridLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class SeleccionarAvatarActivity extends AppCompatActivity {
+    private ImageButton buttonBack;
 
     private final int[] avatarIds = {
             R.drawable.avatar1,
@@ -25,10 +28,12 @@ public class SeleccionarAvatarActivity extends AppCompatActivity {
             "avatar5"
     };
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seleccionar_avatar);
+        buttonBack = findViewById(R.id.buttonBack1);
 
         GridLayout gridLayout = findViewById(R.id.gridAvatares);
 
@@ -53,8 +58,15 @@ public class SeleccionarAvatarActivity extends AppCompatActivity {
                 resultIntent.putExtra("avatarName", avatarName);
                 setResult(RESULT_OK, resultIntent);
                 finish();
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             });
-
+            // Botón de volver
+            buttonBack.setOnClickListener(v -> {
+                Intent intent = new Intent(SeleccionarAvatarActivity.this, PerfilActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                finish();
+            });
             gridLayout.addView(avatarView);
         }
     }

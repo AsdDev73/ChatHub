@@ -72,6 +72,8 @@ public class LogIn extends AppCompatActivity {
         textViewRegister.setOnClickListener(v -> {
             Intent intent = new Intent(LogIn.this, RegisterActivity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
         });
     }
 
@@ -108,6 +110,7 @@ public class LogIn extends AppCompatActivity {
     private void irAHomeActivity() {
         Intent intent = new Intent(LogIn.this, HomeActivity.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left); // animación añadida
         finish();
     }
 }

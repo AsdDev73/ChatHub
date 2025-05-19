@@ -52,7 +52,11 @@ public class RegisterActivity extends AppCompatActivity {
         // Toolbar
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(v -> finish());
+        toolbar.setNavigationOnClickListener(v -> {
+            finish();
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        });
+
 
         // UI
         imageButtonAvatar       = findViewById(R.id.imageButtonAvatar);
@@ -84,6 +88,8 @@ public class RegisterActivity extends AppCompatActivity {
         imageButtonAvatar.setOnClickListener(v -> {
             Intent intent = new Intent(this, SeleccionarAvatarActivity.class);
             startActivityForResult(intent, REQUEST_AVATAR);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
         });
 
         // Registro

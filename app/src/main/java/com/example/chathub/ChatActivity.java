@@ -43,6 +43,7 @@ public class ChatActivity extends AppCompatActivity {
         tituloTextView = findViewById(R.id.titulo);
 
         String chatName = getIntent().getStringExtra("chatName");
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         if (chatName == null) {
             chatName = getIntent().getStringExtra("roomName");
         }
@@ -94,6 +95,10 @@ public class ChatActivity extends AppCompatActivity {
                     }
                 });
 
-        btnVolver.setOnClickListener(v -> finish());
+        btnVolver.setOnClickListener(v -> {
+            finish();
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        });
+
     }
 }

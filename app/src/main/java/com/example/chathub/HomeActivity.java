@@ -50,6 +50,7 @@ public class HomeActivity extends AppCompatActivity {
 
         adapter = new ChatListAdapter(filteredChatRooms, roomName -> {
             Intent intent = new Intent(HomeActivity.this, ChatActivity.class);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             intent.putExtra("roomName", roomName.toLowerCase());
             startActivity(intent);
         });
@@ -58,7 +59,9 @@ public class HomeActivity extends AppCompatActivity {
         perfilIcon = findViewById(R.id.imageView2);
         perfilIcon.setOnClickListener(v -> {
             Intent intent = new Intent(HomeActivity.this, PerfilActivity.class);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left); // animación añadida
         });
 
         cargarAvatarDesdeFirestore();

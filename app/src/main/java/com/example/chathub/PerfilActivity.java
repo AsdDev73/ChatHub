@@ -87,6 +87,7 @@ public class PerfilActivity extends AppCompatActivity {
             Intent intent = new Intent(PerfilActivity.this, LogIn.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             finish();
         });
 
@@ -94,6 +95,7 @@ public class PerfilActivity extends AppCompatActivity {
         buttonBack.setOnClickListener(v -> {
             Intent intent = new Intent(PerfilActivity.this, HomeActivity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             finish();
         });
 
@@ -101,6 +103,7 @@ public class PerfilActivity extends AppCompatActivity {
         imagenPerfil.setOnClickListener(v -> {
             Intent intent = new Intent(PerfilActivity.this, SeleccionarAvatarActivity.class);
             startActivityForResult(intent, REQUEST_AVATAR);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
     }
 

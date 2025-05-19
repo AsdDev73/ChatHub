@@ -31,21 +31,9 @@ public class LogIn extends AppCompatActivity {
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextContra);
         buttonLogin = findViewById(R.id.buttonLogin);
-        SignInButton googleSignInButton = findViewById(R.id.googleSignInButton);
         textViewRegister = findViewById(R.id.Registrar);
 
         mAuth = FirebaseAuth.getInstance();
-
-        // Configurar opciones de inicio de sesión
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
-
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
-        googleSignInButton.setOnClickListener(v -> {
-            Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-            startActivityForResult(signInIntent, RC_SIGN_IN);
-        });
 
         // botón Login con correo y contraseña
         buttonLogin.setOnClickListener(v -> {

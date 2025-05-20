@@ -36,7 +36,7 @@ public class HomeActivity extends AppCompatActivity {
     private FloatingActionButton fabSolicitarChat;
     private EditText searchEditText;
 
-    private List<String> chatRooms = Arrays.asList("General", "Fútbol", "Programación", "Cine", "Videojuegos", "Cocina");
+    private List<String> chatRooms = Arrays.asList("General", "Fútbol", "Programación", "Cine", "Videojuegos", "Cocina", "Motos");
     private List<String> filteredChatRooms = new ArrayList<>(chatRooms);
 
     @Override

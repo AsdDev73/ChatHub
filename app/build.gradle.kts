@@ -34,32 +34,28 @@ android {
 }
 
 dependencies {
-    // Dependencias de Firebase
-    implementation("com.google.firebase:firebase-auth:21.0.1") // Para autenticación de Firebase
-    implementation("com.google.firebase:firebase-database:20.0.3") // Para la base de datos de Firebase
-    implementation(platform("com.google.firebase:firebase-bom:31.0.1")) // Para gestionar versiones de Firebase
-
-    // Google Sign-In
-    implementation("com.google.android.gms:play-services-auth:20.4.1") // Para la autenticación con Google
-
     // Firebase BoM
     implementation(platform("com.google.firebase:firebase-bom:32.7.3"))
 
-    // Firestore
+    // Firebase core features
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-database")
     implementation("com.google.firebase:firebase-firestore")
 
-    // Dependencias comunes de la UI
-    implementation("androidx.appcompat:appcompat:1.3.1") // Para compatibilidad con versiones anteriores
-    implementation("com.google.android.material:material:1.4.0") // Para los componentes de UI de Google
-    implementation("androidx.constraintlayout:constraintlayout:2.0.4") // Para la disposición con ConstraintLayout
-    implementation("androidx.activity:activity:1.3.1") // Para la actividad de la aplicación
+    // Google Sign-In
+    implementation("com.google.android.gms:play-services-auth:20.4.1")
 
-    // Dependencias de prueba
-    testImplementation("junit:junit:4.13.2") // Dependencia de JUnit para pruebas unitarias
-    androidTestImplementation("androidx.test.ext:junit:1.1.3") // Dependencia de JUnit para pruebas de interfaz de usuario
-    androidTestImplementation("androidx.espresso:espresso-core:3.4.0") // Dependencia para pruebas de UI con Espresso
+    // UI y Material
+    implementation("androidx.appcompat:appcompat:1.3.1")
+    implementation("androidx.constraintlayout:constraintlayout:2.0.4")
+    implementation("androidx.activity:activity:1.3.1")
+    implementation("com.google.android.material:material:1.12.0")
 
-    implementation("com.google.android.material:material:1.5.0")
-    implementation ("com.google.android.material:material:1.12.0")// Usa la versión más reciente
+    // Pruebas unitarias
+    testImplementation("junit:junit:4.13.2")
 
+    // Pruebas instrumentadas
+    androidTestImplementation("androidx.test:core:1.5.0")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }

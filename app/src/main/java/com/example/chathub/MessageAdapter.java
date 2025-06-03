@@ -44,6 +44,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         return new MessageViewHolder(view);
     }
 
+    // Método para actualizar los mensajes
     @Override
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
         Mensaje msg = messages.get(position);
@@ -71,11 +72,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     public int getItemCount() {
         return messages.size();
     }
-
+    // Clase interna para el ViewHolder
     static class MessageViewHolder extends RecyclerView.ViewHolder {
         LinearLayout container;
         TextView user, text, hora;
-
+    // Constructor
         public MessageViewHolder(@NonNull View itemView) {
             super(itemView);
             container = itemView.findViewById(R.id.messageContainer);

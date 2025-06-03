@@ -36,7 +36,7 @@ public class SeleccionarAvatarActivity extends AppCompatActivity {
         buttonBack = findViewById(R.id.buttonBack1);
 
         GridLayout gridLayout = findViewById(R.id.gridAvatares);
-
+        // Crear y agregar los botones de los avatares
         for (int i = 0; i < avatarIds.length; i++) {
             int avatarId = avatarIds[i];
             String avatarName = avatarNames[i];

@@ -22,10 +22,10 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
         this.listener = listener;
     }
 
+    // Método para actualizar las salas de chat
     @NonNull
     @Override
     public ChatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Inflamos EXACTAMENTE item_chat_room.xml
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_chat_room, parent, false);
         return new ChatViewHolder(view);
@@ -48,7 +48,6 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatVi
 
         public ChatViewHolder(@NonNull View itemView) {
             super(itemView);
-            // Aquí (y solo aquí) buscamos la vista con EXACTAMENTE ese ID
             chatNameTextView = itemView.findViewById(R.id.chatNameTextView);
         }
     }

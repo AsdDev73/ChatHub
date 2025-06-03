@@ -65,36 +65,7 @@ public class LogIn extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == RC_SIGN_IN) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                // Google Sign In fue exitoso, ahora autenticar con Firebase
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account.getIdToken());
-            } catch (ApiException e) {
-                Toast.makeText(this, "Fallo en Google Sign-In", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-    // autenticar con Firebase
-    private void firebaseAuthWithGoogle(String idToken) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        Toast.makeText(this, "Bienvenido, " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
-                        irAHomeActivity();
-                    } else {
-                        Toast.makeText(this, "Autenticación fallida", Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
+    // volver a HomeActivity
     private void irAHomeActivity() {
         Intent intent = new Intent(LogIn.this, HomeActivity.class);
         startActivity(intent);

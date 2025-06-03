@@ -51,21 +51,20 @@ public class ChatActivity extends AppCompatActivity {
             chatName = "general";
         }
 
+        // Cambiar el título de la actividad
         String displayName = chatName.substring(0, 1).toUpperCase() + chatName.substring(1);
         tituloTextView.setText(displayName);
-
+        // Obtener la referencia de la colección de mensajes
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         messagesRef = db.collection("rooms").document(chatName).collection("messages");
-
+        // Obtener el nombre de usuario
         uidUsuario = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
         db.collection("usuarios")
                 .document(uidUsuario)
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
                         nombreUsuario = documentSnapshot.getString("name");
-
                         adaptador = new MessageAdapter(this, new ArrayList<>());
                         recyclerView.setLayoutManager(new LinearLayoutManager(this));
                         recyclerView.setAdapter(adaptador);
@@ -81,7 +80,7 @@ public class ChatActivity extends AppCompatActivity {
                                     adaptador.setMessages(lista);
                                     recyclerView.scrollToPosition(lista.size() - 1);
                                 });
-
+                        // Enviar mensaje
                         botonEnviar.setOnClickListener(v -> {
                             String texto = mensajeEnviado.getText().toString().trim();
                             if (!texto.isEmpty()) {
@@ -94,11 +93,10 @@ public class ChatActivity extends AppCompatActivity {
                         });
                     }
                 });
-
+        // Botón para volver a HomeActivity
         btnVolver.setOnClickListener(v -> {
             finish();
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         });
-
     }
 }

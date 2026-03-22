@@ -1,147 +1,129 @@
 # ChatHub
 
-Aplicación Android desarrollada como **TFG del Grado Superior de DAM**.  
-**ChatHub** es una app de chat por salas temática, donde los usuarios pueden registrarse, iniciar sesión, personalizar su perfil y participar en conversaciones en tiempo real.
+**ChatHub** es una aplicación móvil para Android desarrollada en **Java** como proyecto de fin de grado de **Desarrollo de Aplicaciones Multiplataforma (DAM)**.  
+La aplicación está orientada a la comunicación mediante **salas de chat temáticas**, permitiendo a los usuarios registrarse, iniciar sesión, personalizar su perfil y participar en conversaciones en tiempo real.
 
 ---
 
 ## Índice
 
-- [Descripción](#descripción)
-- [Características principales](#características-principales)
+- [Descripción del proyecto](#descripción-del-proyecto)
+- [Funcionalidades principales](#funcionalidades-principales)
 - [Tecnologías utilizadas](#tecnologías-utilizadas)
-- [Arquitectura del proyecto](#arquitectura-del-proyecto)
-- [Estructura del repositorio](#estructura-del-repositorio)
-- [Instalación y puesta en marcha](#instalación-y-puesta-en-marcha)
-- [Configuración de Firebase](#configuración-de-firebase)
+- [Arquitectura general](#arquitectura-general)
+- [Estructura del proyecto](#estructura-del-proyecto)
+- [Modelo de datos](#modelo-de-datos)
 - [Flujo de la aplicación](#flujo-de-la-aplicación)
-- [Posibles mejoras futuras](#posibles-mejoras-futuras)
+- [Instalación y ejecución](#instalación-y-ejecución)
+- [Configuración de Firebase](#configuración-de-firebase)
 - [Autor](#autor)
 
 ---
 
-## Descripción
+## Descripción del proyecto
 
-ChatHub es una aplicación móvil para Android orientada a la comunicación en salas de chat temáticas.  
-El proyecto ha sido desarrollado en **Java** con **Android Studio** y utiliza **Firebase** como backend para autenticación y almacenamiento de datos.
+ChatHub es una aplicación Android enfocada en la comunicación entre usuarios a través de distintas salas temáticas.  
+El proyecto utiliza **Firebase** para la autenticación y para la gestión de los datos, permitiendo mantener la información de usuarios y mensajes sincronizada en tiempo real.
 
-La aplicación permite:
+La aplicación ofrece una experiencia centrada en cuatro bloques principales:
 
-- registrarse con correo y contraseña,
-- iniciar sesión,
-- editar el perfil del usuario,
-- seleccionar avatar,
-- navegar entre salas temáticas,
-- enviar y recibir mensajes en tiempo real,
-- solicitar nuevas salas de chat.
-
-Este proyecto forma parte de mi **Trabajo de Fin de Grado (TFG)** en DAM.
+- autenticación de usuarios,
+- gestión del perfil,
+- acceso a salas temáticas,
+- envío y recepción de mensajes en tiempo real.
 
 ---
 
-## Características principales
+## Funcionalidades principales
 
-### Autenticación de usuarios
-- Registro de cuenta mediante correo electrónico y contraseña.
-- Inicio de sesión seguro con Firebase Authentication.
+### Autenticación
+- Registro de usuarios mediante correo electrónico y contraseña.
+- Inicio de sesión con validación de credenciales.
+- Persistencia de la sesión del usuario autenticado.
 - Cierre de sesión desde la pantalla de perfil.
 
-### Gestión de perfil
-- Edición de nombre.
+### Gestión del perfil
+- Edición del nombre del usuario.
 - Selección de sexo.
-- Fecha de nacimiento mediante selector de fecha.
+- Selección de fecha de nacimiento.
 - Cambio de avatar.
-- Persistencia de datos del usuario en Firestore.
+- Almacenamiento de la información personal en Firestore.
 
-### Sistema de salas
-- Salas temáticas predefinidas:
-  - General
-  - Fútbol
-  - Programación
-  - Cine
-  - Videojuegos
-  - Cocina
-  - Motos
-- Buscador para filtrar salas disponibles.
-- Posibilidad de solicitar nuevas salas desde la pantalla principal.
+### Salas de chat
+- Acceso a varias salas temáticas predefinidas.
+- Listado visual de salas disponibles.
+- Búsqueda y filtrado de salas desde la pantalla principal.
+- Envío de solicitudes de nuevas salas.
 
-### Chat en tiempo real
+### Mensajería en tiempo real
 - Envío de mensajes dentro de cada sala.
-- Lectura de mensajes en tiempo real.
-- Actualización automática del chat.
-- Scroll automático al último mensaje enviado.
-
-### Experiencia de usuario
-- Interfaz nativa Android.
-- Navegación entre pantallas con animaciones.
-- Selección visual de avatar.
-- Diseño sencillo, centrado en la usabilidad.
+- Lectura de mensajes sincronizados en tiempo real.
+- Visualización de los mensajes en orden cronológico.
+- Desplazamiento automático al mensaje más reciente.
 
 ---
 
 ## Tecnologías utilizadas
 
-### Lenguaje y entorno
+### Lenguaje y entorno de desarrollo
 - **Java**
 - **Android Studio**
 - **Gradle (Kotlin DSL)**
 
-### SDK y librerías
+### Desarrollo Android
 - **Android SDK**
+- **Activities**
+- **RecyclerView**
+- **ConstraintLayout**
 - **Material Components**
-- **RecyclerView / ConstraintLayout**
+- **Animaciones XML**
+
+### Backend y servicios
 - **Firebase Authentication**
 - **Cloud Firestore**
-- **Firebase Realtime Database** (dependencia incluida en el proyecto)
-- **Google Services Plugin**
+- **Firebase Realtime Database**
+- **Google Services**
 
 ---
 
-## Arquitectura del proyecto
+## Arquitectura general
 
-La aplicación está organizada mediante actividades independientes para cada funcionalidad principal:
+La aplicación se organiza en diferentes actividades, cada una encargada de una parte concreta del flujo de uso.
 
-- **LogIn**  
-  Pantalla de inicio de sesión.
+### Pantallas principales
 
-- **RegisterActivity**  
-  Registro de nuevos usuarios y almacenamiento de datos iniciales.
+#### `LogIn`
+Gestiona el acceso del usuario mediante correo y contraseña.
 
-- **HomeActivity**  
-  Pantalla principal con listado de salas, buscador y solicitud de nuevas salas.
+#### `RegisterActivity`
+Permite registrar nuevos usuarios y almacenar sus datos iniciales.
 
-- **ChatActivity**  
-  Gestión del chat dentro de una sala concreta.
+#### `HomeActivity`
+Muestra la pantalla principal con las salas disponibles, el buscador y la opción de solicitar nuevas salas.
 
-- **PerfilActivity**  
-  Consulta y edición del perfil del usuario.
+#### `ChatActivity`
+Gestiona la conversación dentro de una sala concreta, mostrando y enviando mensajes.
 
-- **SeleccionarAvatarActivity**  
-  Pantalla de selección de avatar.
+#### `PerfilActivity`
+Permite consultar y modificar los datos del perfil del usuario autenticado.
 
-### Modelo de datos principal
+#### `SeleccionarAvatarActivity`
+Gestiona la selección del avatar del usuario.
 
-#### Colección `usuarios`
-Cada usuario almacena información como:
-- nombre,
-- email,
-- fecha de nacimiento,
-- sexo,
-- avatar.
+### Clases de apoyo
 
-#### Colección `rooms/{roomName}/messages`
-Cada sala contiene su subcolección de mensajes, donde se guarda:
-- nombre del usuario,
-- texto del mensaje,
-- hora,
-- UID del usuario.
+#### `Mensaje`
+Modelo de datos utilizado para representar cada mensaje del chat.
 
-#### Colección `chat_requests`
-Se almacenan las solicitudes de nuevas salas enviadas por los usuarios.
+#### `MessageAdapter`
+Adaptador encargado de mostrar los mensajes dentro del `RecyclerView` del chat.
+
+#### `ChatListAdapter`
+Adaptador utilizado para representar las salas en la pantalla principal.
 
 ---
 
-## Estructura del repositorio
+## Estructura del proyecto
 
 ```text
 ChatHub/
@@ -159,9 +141,10 @@ ChatHub/
 │   │   │   │   ├── RegisterActivity.java
 │   │   │   │   └── SeleccionarAvatarActivity.java
 │   │   │   ├── res/
-│   │   │   │   ├── layout/
-│   │   │   │   ├── drawable/
 │   │   │   │   ├── anim/
+│   │   │   │   ├── drawable/
+│   │   │   │   ├── layout/
+│   │   │   │   ├── mipmap/
 │   │   │   │   └── values/
 │   │   │   └── AndroidManifest.xml
 │   ├── build.gradle.kts
@@ -174,7 +157,64 @@ ChatHub/
 
 ---
 
-## Instalación y puesta en marcha
+## Modelo de datos
+
+La aplicación utiliza Firebase para almacenar tanto la información de usuario como los datos relacionados con las salas y los mensajes.
+
+### Usuarios
+Cada usuario dispone de información asociada a su perfil, como por ejemplo:
+- nombre,
+- correo electrónico,
+- fecha de nacimiento,
+- sexo,
+- avatar.
+
+### Salas
+La aplicación parte de un conjunto de salas temáticas visibles desde la pantalla principal.
+
+### Mensajes
+Cada sala contiene su propia colección de mensajes, donde se almacena información como:
+- identificador del usuario,
+- nombre mostrado,
+- contenido del mensaje,
+- hora o marca temporal.
+
+### Solicitudes de salas
+Las peticiones enviadas por los usuarios para proponer nuevas salas se almacenan en una colección independiente.
+
+---
+
+## Flujo de la aplicación
+
+### 1. Acceso inicial
+El usuario entra en la aplicación y se autentica desde la pantalla de inicio de sesión.
+
+### 2. Registro
+Si no dispone de cuenta, puede registrarse introduciendo sus datos personales y seleccionando un avatar.
+
+### 3. Pantalla principal
+Tras iniciar sesión, accede a la pantalla principal, donde puede:
+- visualizar las salas disponibles,
+- buscar salas concretas,
+- entrar en una sala,
+- solicitar nuevas salas.
+
+### 4. Chat
+Al acceder a una sala, el usuario entra en la conversación correspondiente, donde puede:
+- leer los mensajes existentes,
+- enviar nuevos mensajes,
+- mantenerse sincronizado con las actualizaciones en tiempo real.
+
+### 5. Perfil
+Desde la pantalla de perfil puede:
+- consultar sus datos,
+- modificar la información personal,
+- cambiar el avatar,
+- cerrar sesión.
+
+---
+
+## Instalación y ejecución
 
 ### 1. Clonar el repositorio
 
@@ -182,110 +222,38 @@ ChatHub/
 git clone https://github.com/AsdDev73/ChatHub.git
 ```
 
-### 2. Abrir en Android Studio
-Abre el proyecto desde Android Studio y deja que Gradle sincronice todas las dependencias.
+### 2. Abrir el proyecto
+Abre el repositorio con **Android Studio** y espera a que Gradle sincronice las dependencias.
 
 ### 3. Configurar Firebase
-Este proyecto necesita un archivo `google-services.json` válido dentro de la carpeta `app/`.
+Coloca el archivo `google-services.json` dentro de la carpeta `app/`.
 
 ### 4. Ejecutar la aplicación
-Lanza la app en un emulador Android o en un dispositivo físico.
+Inicia la app en un emulador o en un dispositivo Android físico.
 
 ---
 
 ## Configuración de Firebase
 
-Para ejecutar correctamente el proyecto necesitas crear o enlazar un proyecto en Firebase.
+Para ejecutar la aplicación correctamente es necesario disponer de un proyecto Firebase configurado.
 
-### Pasos recomendados
-1. Crear un proyecto en Firebase.
-2. Registrar la app Android con el paquete correspondiente.
-3. Descargar el archivo `google-services.json`.
-4. Colocarlo dentro de:
+### Servicios utilizados
+- **Authentication**
+- **Cloud Firestore**
+
+### Archivo de configuración
+El archivo de configuración de Firebase debe ubicarse en:
 
 ```text
 app/google-services.json
 ```
 
-5. Activar los servicios necesarios:
-   - Authentication
-   - Cloud Firestore
-
-### Importante
-Por seguridad, **no deberías subir tu configuración real de Firebase a un repositorio público** si no es necesario.  
-Lo ideal es:
-
-- ignorar `app/google-services.json` en `.gitignore`,
-- mantener la configuración solo en local,
-- documentar en este README cómo generar el archivo.
-
----
-
-## Flujo de la aplicación
-
-### 1. Login
-El usuario inicia sesión con correo y contraseña.
-
-### 2. Registro
-Si no tiene cuenta, puede registrarse indicando:
-- nombre,
-- email,
-- contraseña,
-- fecha de nacimiento,
-- sexo,
-- avatar.
-
-### 3. Pantalla principal
-Tras iniciar sesión, accede a la pantalla principal donde:
-- ve las salas disponibles,
-- filtra salas con el buscador,
-- entra en una sala,
-- solicita nuevas salas.
-
-### 4. Chat
-Dentro de cada sala puede:
-- leer mensajes en tiempo real,
-- enviar mensajes,
-- volver al menú principal.
-
-### 5. Perfil
-Desde el icono de perfil puede:
-- editar sus datos,
-- cambiar avatar,
-- cerrar sesión.
-
----
-
-## Posibles mejoras futuras
-
-- Implementar chats privados entre usuarios.
-- Añadir notificaciones push con Firebase Cloud Messaging.
-- Integrar inicio de sesión con Google.
-- Mejorar validaciones y gestión de errores.
-- Añadir moderación de salas y roles de usuario.
-- Subida de imagen de perfil personalizada.
-- Despliegue de reglas de seguridad más completas en Firestore.
-- Añadir tests unitarios e instrumentados más amplios.
-- Publicación en formato APK o Play Store interna para demostración.
+### Recomendación de repositorio
+Ese archivo debe mantenerse en local y fuera del repositorio público mediante `.gitignore`.
 
 ---
 
 ## Autor
 
 **AsdDev73**  
-Proyecto desarrollado como **TFG del Grado Superior de Desarrollo de Aplicaciones Multiplataforma (DAM)**.
-
-Si este proyecto forma parte de una memoria o defensa, este repositorio puede servir como soporte técnico del desarrollo de la aplicación.
-
----
-
-## Nota final
-
-Este README está pensado para presentar el proyecto de forma clara tanto a profesores como a desarrolladores que quieran revisar el código.  
-Una buena mejora adicional sería añadir:
-
-- capturas de pantalla de la app,
-- diagrama de arquitectura,
-- modelo de base de datos,
-- vídeo demo,
-- enlace al documento o memoria del TFG.
+Proyecto desarrollado como trabajo de fin de grado del ciclo de **Desarrollo de Aplicaciones Multiplataforma (DAM)**.
